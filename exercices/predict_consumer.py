@@ -14,7 +14,6 @@ exactement un consommateur du groupe.
 """
 
 import argparse
-import json
 import sys
 from pathlib import Path
 
@@ -22,6 +21,7 @@ from kafka import KafkaConsumer, KafkaProducer
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import BOOTSTRAP, TOPIC_MAISONS, TOPIC_PREDICTION  # noqa: E402
+from serialisation import JsonDeserializer, JsonSerializer  # noqa: E402
 from modele.chargement import charger_modele, predire  # noqa: E402
 
 
@@ -40,13 +40,13 @@ def main() -> None:
         bootstrap_servers=BOOTSTRAP,
         group_id=args.groupe,
         auto_offset_reset="earliest",
-        value_deserializer=lambda v: json.loads(v.decode("utf-8")),
+        value_deserializer=JsonDeserializer(),
     )
     producer = None
     if args.publier:
         producer = KafkaProducer(
             bootstrap_servers=BOOTSTRAP,
-            value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+            value_serializer=JsonSerializer(),
         )
 
     mode = f"groupe {args.groupe}" if args.groupe else "sans groupe"

@@ -9,7 +9,6 @@ donc un message n'est traite qu'une fois.
 """
 
 import argparse
-import json
 import sys
 from pathlib import Path
 
@@ -18,6 +17,7 @@ from kafka import KafkaConsumer
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import BOOTSTRAP, TOPIC_DONNEES  # noqa: E402
+from serialisation import JsonDeserializer  # noqa: E402
 
 
 def main() -> None:
@@ -31,7 +31,7 @@ def main() -> None:
         bootstrap_servers=BOOTSTRAP,
         group_id=args.groupe,
         auto_offset_reset="earliest",
-        value_deserializer=lambda v: json.loads(v.decode("utf-8")),
+        value_deserializer=JsonDeserializer(),
     )
     mode = f"groupe {args.groupe}" if args.groupe else "sans groupe, diffusion a tous"
     print(f"[{args.etiquette}] a l'ecoute de {TOPIC_DONNEES} ({mode})")
