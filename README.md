@@ -34,12 +34,28 @@ VIRTUAL_ENV=.venv uv pip install -r requirements.txt
 L'adresse du broker vient de l'environnement, jamais du code :
 
 ```bash
-# En cours, avec l'adresse donnée par le formateur
-export KAFKA_BOOTSTRAP=10.0.0.1:9092
-
-# En local, avec le Kafka de ce dépôt
-docker compose up -d          # KRaft, sans ZooKeeper, deux partitions par défaut
+docker compose up -d --wait   # attend que le broker soit réellement prêt
 export KAFKA_BOOTSTRAP=localhost:9092
+```
+
+Le broker tourne en mode KRaft, sans ZooKeeper, avec deux partitions par
+défaut. `--wait` s'appuie sur une sonde de santé qui interroge vraiment l'API :
+un conteneur affiché « Up » n'est pas encore un broker prêt.
+
+**Si ça timeout**, trois causes dans l'ordre de fréquence :
+
+1. `KAFKA_ADVERTISED_LISTENERS` mal réglé. Le client se connecte, le broker lui
+   répond « recontacte-moi à telle adresse », et cette adresse n'est pas
+   joignable depuis la machine hôte. C'est ce que le compose de ce dépôt règle,
+   et c'est ce qui manque à un `docker run` sans variables d'environnement.
+2. `localhost` qui résout en IPv6 alors que le port n'est publié qu'en IPv4.
+   Essayer `127.0.0.1:9092`.
+3. Le conteneur qui ne tourne tout simplement pas : `docker ps`.
+
+Si un formateur fournit un broker commun, il suffit de pointer dessus :
+
+```bash
+export KAFKA_BOOTSTRAP=<ip>:9092
 ```
 
 `KAFKA_NOM` fixe le nom de famille utilisé pour les canaux personnels
