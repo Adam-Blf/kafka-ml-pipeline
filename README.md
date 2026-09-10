@@ -52,11 +52,21 @@ un conteneur affiché « Up » n'est pas encore un broker prêt.
    Essayer `127.0.0.1:9092`.
 3. Le conteneur qui ne tourne tout simplement pas : `docker ps`.
 
-Si un formateur fournit un broker commun, il suffit de pointer dessus :
+### Le broker commun de la promotion
+
+Les premiers exercices se font sur le broker partagé du cours, ce qui est le
+seul moyen de vérifier que les camarades reçoivent bien le message :
 
 ```bash
-export KAFKA_BOOTSTRAP=<ip>:9092
+export KAFKA_BOOTSTRAP=nowledgeable.com:9092
 ```
+
+Rien d'autre à changer, les scripts lisent tous cette variable. Le défaut reste
+volontairement `localhost` : un script lancé par mégarde sans la variable écrit
+sur sa propre machine plutôt que sur le canal de toute la promotion.
+
+Vérifié le 10 septembre 2026 : `coucou Beloucif` posé sur `exo1` à l'offset 8,
+à côté des messages des autres étudiants.
 
 `KAFKA_NOM` fixe le nom de famille utilisé pour les canaux personnels
 (`beloucif` par défaut), ce qui permet de rejouer les exercices sans écraser

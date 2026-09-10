@@ -1,9 +1,12 @@
 """Reglages partages par tous les scripts.
 
-L'adresse du broker vient de l'environnement. En cours, elle est fournie par le
-formateur ; en local, le docker-compose de ce depot ecoute sur localhost:9092.
-Ecrire l'adresse en dur dans dix scripts oblige a dix corrections le jour ou
-elle change.
+L'adresse du broker vient de l'environnement. En cours, c'est le broker commun
+`nowledgeable.com:9092` ; en local, le docker-compose de ce depot ecoute sur
+localhost:9092. Ecrire l'adresse en dur dans dix scripts oblige a dix
+corrections le jour ou elle change.
+
+Le defaut reste local : un script lance par erreur sans variable d'environnement
+touche sa propre machine, pas le broker partage par toute la promotion.
 """
 
 import os
