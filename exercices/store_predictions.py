@@ -7,7 +7,6 @@ d'une base.
 Lancement : python exercices/store_predictions.py
 """
 
-import json
 import sqlite3
 import sys
 from datetime import datetime, timezone
@@ -17,6 +16,7 @@ from kafka import KafkaConsumer
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import BOOTSTRAP, TOPIC_PREDICTION  # noqa: E402
+from serialisation import JsonDeserializer  # noqa: E402
 
 BASE = Path(__file__).resolve().parent.parent / "predictions.db"
 
@@ -46,7 +46,7 @@ def main() -> None:
         bootstrap_servers=BOOTSTRAP,
         group_id="archivage",
         auto_offset_reset="earliest",
-        value_deserializer=lambda v: json.loads(v.decode("utf-8")),
+        value_deserializer=JsonDeserializer(),
     )
     print(f"{TOPIC_PREDICTION} -> {BASE.name}")
 

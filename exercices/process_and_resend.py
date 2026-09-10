@@ -8,7 +8,6 @@ connaitre les autres maillons.
 Lancement : python exercices/process_and_resend.py
 """
 
-import json
 import sys
 from pathlib import Path
 
@@ -17,6 +16,7 @@ from kafka import KafkaConsumer, KafkaProducer
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import BOOTSTRAP, TOPIC_DONNEES, TOPIC_TRAITE  # noqa: E402
+from serialisation import JsonDeserializer, JsonSerializer  # noqa: E402
 
 
 def main() -> None:
@@ -25,11 +25,11 @@ def main() -> None:
         bootstrap_servers=BOOTSTRAP,
         group_id="processeur",
         auto_offset_reset="earliest",
-        value_deserializer=lambda v: json.loads(v.decode("utf-8")),
+        value_deserializer=JsonDeserializer(),
     )
     producer = KafkaProducer(
         bootstrap_servers=BOOTSTRAP,
-        value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+        value_serializer=JsonSerializer(),
     )
     print(f"{TOPIC_DONNEES} -> somme -> {TOPIC_TRAITE}")
 

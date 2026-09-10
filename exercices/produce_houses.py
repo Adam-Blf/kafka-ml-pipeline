@@ -4,7 +4,6 @@ Lancement : python exercices/produce_houses.py [--nombre 5]
 """
 
 import argparse
-import json
 import random
 import sys
 from pathlib import Path
@@ -13,6 +12,7 @@ from kafka import KafkaProducer
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import BOOTSTRAP, TOPIC_MAISONS  # noqa: E402
+from serialisation import JsonSerializer  # noqa: E402
 
 
 def maison_au_hasard() -> dict:
@@ -30,7 +30,7 @@ def main() -> None:
 
     producer = KafkaProducer(
         bootstrap_servers=BOOTSTRAP,
-        value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+        value_serializer=JsonSerializer(),
     )
     for _ in range(args.nombre):
         maison = maison_au_hasard()
