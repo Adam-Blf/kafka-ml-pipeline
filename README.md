@@ -115,6 +115,28 @@ Pour l'étape 9, la parallélisation sans doublon :
 .venv/Scripts/python exercices/predict_consumer.py --publier --groupe predicteurs --etiquette p2
 ```
 
+### Session 2 : créer et assigner des partitions
+
+```bash
+.venv/Scripts/python exercices/creer_partitions.py                 # 1 -> 2 partitions
+.venv/Scripts/python exercices/consume_partition.py --partition 0  # terminal 1
+.venv/Scripts/python exercices/consume_partition.py --partition 1  # terminal 2
+.venv/Scripts/python exercices/produce_partition.py --nombre 6     # terminal 3
+```
+
+`KafkaAdminClient.create_partitions` ne peut qu'**augmenter** le nombre de
+partitions. Le réduire casserait la garantie d'ordre par clé, puisque des
+messages déjà rangés par hash se retrouveraient ailleurs.
+
+La différence entre `subscribe` et `assign` : le premier laisse Kafka répartir
+les partitions entre les membres du groupe et rééquilibrer quand quelqu'un
+entre ou sort, le second fige le choix et exclut le consommateur de tout
+rééquilibrage.
+
+Résultat observé sur six messages envoyés au hasard sur l'une ou l'autre
+partition : le consommateur de la partition 0 reçoit les messages 2, 4 et 6,
+celui de la partition 1 reçoit 1, 3 et 5. Aucun message traité deux fois.
+
 ### 12. Kafka en local
 
 `docker-compose.yml` lance un broker en mode **KRaft**, c'est-à-dire sans
