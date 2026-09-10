@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Modele et base, tous deux regenerables
+regression.joblib
+predictions.db
+
+# Outils
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Systeme et editeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
