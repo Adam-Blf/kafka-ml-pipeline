@@ -1,5 +1,14 @@
 # Kafka, du message brut au modèle en production
 
+<!-- adam-badges:start -->
+[![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/kafka-ml-pipeline?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/kafka-ml-pipeline/commits)
+[![visites](https://hits.sh/github.com/Adam-Blf/kafka-ml-pipeline.svg?style=flat-square&label=visites&color=001329)](https://hits.sh/github.com/Adam-Blf/kafka-ml-pipeline/)
+[![last commit](https://img.shields.io/github/last-commit/Adam-Blf/kafka-ml-pipeline?color=D4A437&style=flat-square&label=dernier%20push)](https://github.com/Adam-Blf/kafka-ml-pipeline/commits)
+[![top language](https://img.shields.io/github/languages/top/Adam-Blf/kafka-ml-pipeline?style=flat-square)](https://github.com/Adam-Blf/kafka-ml-pipeline)
+[![license](https://img.shields.io/github/license/Adam-Blf/kafka-ml-pipeline?style=flat-square&color=D4A437)](LICENSE)
+[![version](https://img.shields.io/badge/version-0.1.0-D4A437?style=flat-square)](CHANGELOG.md)
+<!-- adam-badges:end -->
+
 Les exercices du module *Big data avec Kafka*, du premier « coucou » sur un
 canal jusqu'à un modèle de machine learning qui prédit à la volée et republie
 ses résultats.
